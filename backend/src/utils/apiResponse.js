@@ -7,4 +7,4 @@
         }
     }
 
-    export {apiResponse}
+    export default apiResponse

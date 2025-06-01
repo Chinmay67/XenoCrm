@@ -23,4 +23,4 @@
 
         }
     }
-    export {apiError}
+    export default apiError

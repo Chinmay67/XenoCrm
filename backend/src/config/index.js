@@ -12,5 +12,6 @@ export const config = {
     port: process.env.PORT,
     mongo_url: process.env.MONGO_URI,
     db_name: process.env.MONGO_DB_NAME,
+    rabbit_mq_url: process.env.RABBITMQ_URI,
 }
   

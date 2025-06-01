@@ -8,10 +8,13 @@ import { app } from "./app.js";
 import { config } from "./config/index.js";
 import mongoose from "mongoose";
 import { logger } from "./utils/logger.js";
+
+console.log("config", config);
 const connectDB=async()=>{
     try {
+        console.log(`${config.mongo_url}/XenoCrm`);
         const connectionInstance=await mongoose.connect(`${config.mongo_url}/${config.db_name}`)
-        logger.info(`MONGODB CONNECTION SUCCESFULL - ${connectionInstance.connection.host}`);
+        logger.info(`MONGODB CONNECTION SUCCESFULL - ${connectionInstance.connection}`);
         
     } catch (error) {
         logger.error(`MONGODB connection error - ${error}`)
