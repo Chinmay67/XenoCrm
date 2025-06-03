@@ -210,16 +210,6 @@ Standard error response format:
 - Input validation
 - Rate limiting
 
-## Testing
-
-```bash
-# Run tests
-npm test
-
-# Run specific test suite
-npm test -- --grep "Campaign"
-```
-
 ## Deployment
 
 1. **Prerequisites**
@@ -233,14 +223,6 @@ npm install --production
 npm run build
 npm start
 ```
-
-## Contributing
-
-1. Fork the repository
-2. Create feature branch
-3. Commit changes
-4. Push to branch
-5. Create Pull Request
 
 ## License
 
