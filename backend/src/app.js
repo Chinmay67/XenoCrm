@@ -6,11 +6,25 @@ import { verifyToken } from "./middlewares/auth.middleware.js";
 
 const app = express()
 
+const whitelist = [
+  'https://xeno-crm-git-main-chinmays-projects-3cbd74a3.vercel.app',
+  'https://xeno-crm-smoky.vercel.app',
+  process.env.FRONTEND_URL
+].filter(Boolean);
+
 app.use(cors({
-  origin: config.frontend_url || 'http://localhost:5173',
-  credentials: true, // Allow credentials
+  origin: function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.log('Blocked by CORS:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['set-cookie']
 }));
 
 app.use(cookieParser());
