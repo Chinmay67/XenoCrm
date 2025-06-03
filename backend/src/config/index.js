@@ -17,6 +17,6 @@ export const config = {
   google_clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   google_callbackURL: process.env.GOOGLE_CALLBACK_URL,
   jwt_secret: process.env.JWT_SECRET,
-  frontend_url: process.env.FRONTEND_URL || "http://localhost:3000",
+  frontend_url: process.env.FRONTEND_URL ,
   env: process.env.NODE_ENV || "development",
 };

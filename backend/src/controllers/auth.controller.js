@@ -15,20 +15,30 @@ const generateToken = (user) => {
 
 // Called after successful Google OAuth
 export const googleAuthCallback = (req, res) => {
-  if (!req.user) {
-    return res.status(401).json({ message: 'Authentication failed' });
+  try {
+    if (!req.user) {
+      return res.redirect(`${config.frontend_url}/login?error=auth_failed`);
+    }
+
+    const token = jwt.sign(
+      { id: req.user.id, email: req.user.email, name: req.user.name },
+      config.jwt_secret,
+      { expiresIn: '7d' }
+    );
+
+    // Set cookie and redirect
+    res
+      .cookie('token', token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      })
+      .redirect(config.frontend_url);
+  } catch (error) {
+    console.error('Auth callback error:', error);
+    res.redirect(`${config.frontend_url}/login?error=server_error`);
   }
-
-  const token = generateToken(req.user);
-
-  res
-    .cookie('token', token, {
-      httpOnly: true,
-      secure: config.env === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    })
-    .redirect(config.frontend_url || 'http://localhost:3000');
 };
 
 // Endpoint to get current user info by verifying JWT

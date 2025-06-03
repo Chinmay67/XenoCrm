@@ -7,7 +7,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "customerIngestion" : "node src/services/customerIngestion.service.js",
+    "orderIngestion" : "node src/services/orderIngestion.service.js",
+    "deliveryIngestion" : "node src/services/deliveryIngestion.service.js"
   },
   "author": "",
   "license": "ISC",
