@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import api from "../utils/api";
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const checkAuth = async () => {
     try {
@@ -31,7 +33,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await api.post('/auth/logout');
       setUser(null);
-      window.location.href = '/login';
+      // Remove navigation from here
     } catch (error) {
       console.error('Logout failed:', error);
     }

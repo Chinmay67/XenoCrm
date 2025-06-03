@@ -57,11 +57,15 @@ function AppRoutes() {
           </Layout>
         </ProtectedRoute>
       } />
-      <Route path="/campaigns/edit/:campaignId" element={<ProtectedRoute>
+      <Route path="/campaigns/edit/:campaignId" element={
+        <ProtectedRoute>
           <Layout>
             <CampaignEditor />
           </Layout>
-        </ProtectedRoute>} />
+        </ProtectedRoute>
+      } />
+      {/* Add catch-all route */}
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 }

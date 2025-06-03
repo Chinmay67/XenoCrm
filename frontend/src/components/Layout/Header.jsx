@@ -10,9 +10,13 @@ const Header = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/login', { replace: true }); // Add replace: true
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
   };
 
   return (
