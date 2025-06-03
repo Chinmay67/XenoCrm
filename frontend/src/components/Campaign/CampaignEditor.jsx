@@ -45,7 +45,7 @@ const CampaignEditor = () => {
       }
 
       try {
-        const response = await api.get(`/campaigns/${campaignId}`);
+        const response = await api.get(`/api/campaigns/${campaignId}`);
         const campaign = response.data.data;
         
         setOriginalCampaign(campaign);
@@ -111,7 +111,7 @@ const CampaignEditor = () => {
         updatedAt: new Date()
       };
 
-      await api.put(`/campaigns/${campaignId}`, campaignData);
+      await api.put(`/api/campaigns/${campaignId}`, campaignData);
       
       // Redirect to campaign history
       navigate('/history');
