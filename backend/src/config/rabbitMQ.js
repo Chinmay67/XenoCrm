@@ -35,6 +35,7 @@ export const connectRabbitMQ = async () => {
     // Assert durable queues for customers and orders
     await channel.assertQueue('customer_ingest_queue', { durable: true });
     await channel.assertQueue('order_ingest_queue', { durable: true });
+    await channel.assertQueue('delivery_receipts', { durable: true });
 
     console.log('✅ RabbitMQ connected and queues asserted');
     return channel;

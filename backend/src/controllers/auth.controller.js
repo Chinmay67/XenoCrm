@@ -21,11 +21,11 @@ export const googleAuthCallback = (req, res) => {
 
   const token = generateToken(req.user);
 
-  // Send token as HTTP-only cookie or in response body
   res
     .cookie('token', token, {
       httpOnly: true,
       secure: config.env === 'production',
+      sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     })
     .redirect(config.frontend_url || 'http://localhost:3000');
@@ -33,13 +33,31 @@ export const googleAuthCallback = (req, res) => {
 
 // Endpoint to get current user info by verifying JWT
 export const getCurrentUser = (req, res) => {
-  const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
-  if (!token) return res.status(401).json({ message: 'Not authenticated' });
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json({ message: 'Not authenticated' });
+  }
 
   try {
-    const user = jwt.verify(token, config.jwt_secret);
-    res.json(user);
+    const decoded = jwt.verify(token, config.jwt_secret);
+    res.json({
+      id: decoded.id,
+      email: decoded.email,
+      name: decoded.name,
+    });
   } catch (error) {
+    res.clearCookie('token');
     res.status(401).json({ message: 'Invalid token' });
   }
+};
+
+export const logout = (req, res) => {
+  res
+    .clearCookie('token', {
+      httpOnly: true,
+      secure: config.env === 'production',
+      sameSite: 'strict',
+    })
+    .json({ message: 'Logged out successfully' });
 };

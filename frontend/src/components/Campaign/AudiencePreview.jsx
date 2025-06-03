@@ -24,8 +24,8 @@ const AudiencePreview = ({ rules }) => {
       setError(null);
 
       try {
-        const response = await api.post('/campaigns/preview', { rules });
-        setAudienceSize(response.data.audienceSize || 0);
+        const response = await api.post('/api/audience', { rules });
+        setAudienceSize(response.data.count || 0);
       } catch (err) {
           setError('Failed to preview audience');
           console.error('Preview error:', err);

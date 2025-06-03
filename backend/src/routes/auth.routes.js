@@ -1,13 +1,11 @@
 import express from 'express';
 import passport from '../config/passport.js';
-import { googleAuthCallback, getCurrentUser } from '../controllers/auth.controller.js';
+import { googleAuthCallback, getCurrentUser, logout } from '../controllers/auth.controller.js';
 
 const router = express.Router();
 
-router.get(
-  '/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] })
-);
+// Remove /api prefix since it's added in app.js
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get(
   '/google/callback',
@@ -16,5 +14,6 @@ router.get(
 );
 
 router.get('/me', getCurrentUser);
+router.post('/logout', logout);
 
 export default router;

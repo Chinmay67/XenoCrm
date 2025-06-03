@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { AuthProvider } from './context/AuthContext';
@@ -8,6 +8,8 @@ import CampaignCreator from './components/Campaign/CampaignCreator';
 import CampaignHistory from './components/Campaign/CampaignHistory';
 import GoogleLogin from './components/Auth/GoogleLogin';
 import { useAuth } from './context/AuthContext';
+import CampaignEditor from './components/Campaign/CampaignEditor';
+import { Box, CircularProgress } from '@mui/material';
 
 const theme = createTheme({
   palette: {
@@ -22,12 +24,17 @@ const theme = createTheme({
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
-  
+  const location = useLocation();
+
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
   }
   
-  return user ? children : <Navigate to="/login" />;
+  return user ? children : <Navigate to="/login" state={{ from: location }} replace />;
 }
 
 function AppRoutes() {
@@ -50,6 +57,11 @@ function AppRoutes() {
           </Layout>
         </ProtectedRoute>
       } />
+      <Route path="/campaigns/edit/:campaignId" element={<ProtectedRoute>
+          <Layout>
+            <CampaignEditor />
+          </Layout>
+        </ProtectedRoute>} />
     </Routes>
   );
 }

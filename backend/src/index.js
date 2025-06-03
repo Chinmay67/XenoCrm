@@ -9,7 +9,6 @@ import { config } from "./config/index.js";
 import mongoose from "mongoose";
 import { logger } from "./utils/logger.js";
 
-console.log("config", config);
 const connectDB=async()=>{
     try {
         console.log(`${config.mongo_url}/XenoCrm`);
